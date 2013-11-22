@@ -46,20 +46,20 @@ end
 # sort an array of words by their last letter, e.g.
 # ['sky', 'puma', 'maker'] becomes ['puma', 'maker', 'sky']
 def array_sort_by_last_letter_of_word(array)
-  array.sort { |word1, word2| word1[-1] <=> word2[-2] }
+  array.sort { |word1, word2| word1[-1] <=> word2[-1] }
 end
 
 # cut strings in half, and return the first half, e.g.
 # 'banana' becomes 'ban'. If the string is an odd number of letters
 # round up - so 'apple' becomes 'app'
 def get_first_half_of_string(string)
-  string[0...(string.size.to_f/2).ceil]
+  string[0...(string.size.to_f / 2).ceil]
 end
 
 # turn a positive integer into a negative integer. A negative integer
 # stays negative
 def make_numbers_negative(number)
-  return number - (number * 2) if number > 0; number
+  number > 0 ? number - (number * 2) : number
 end
 
 # turn an array of numbers into two arrays of numbers, one an array of 
@@ -75,7 +75,7 @@ end
 # e.g. 'bob'. So in the array ['bob', 'radar', 'eat'], there
 # are 2 palindromes (bob and radar), so the method should return 2
 def number_of_elements_that_are_palindromes(array)
-  array.select { |word| word == word.reverse}.count
+  array.select { |word| word == word.reverse }.count
 end
 
 # return the shortest word in an array
@@ -186,7 +186,7 @@ end
 def titleize_a_string(string)
   no_cap = ['a', 'the', 'and']
   caps = string.split.map { |word| no_cap.include?(word) ? word : word.capitalize! }
-  ([caps[0].capitalize!] + caps[1..-1]).join(' ')
+  ([caps[0].capitalize] + caps[1..-1]).join(' ')
 end
 
 # return true if a string contains any special characters
@@ -215,8 +215,7 @@ end
 
 # count the number of words in a file
 def word_count_a_file(file_path)
-  file = File.open(file_path, 'r')
-  file.each_line.inject(0) { |memo, line| memo += line.split.size }
+  file = File.read(file_path).split.size
 end
 
 # --- tougher ones ---
@@ -241,8 +240,9 @@ end
 # e.g. january 1st, will next be a friday in 2016
 # return the day as a capitalized string like 'Friday'
 def your_birthday_is_on_a_friday_in_the_year(birthday)
+  birthday = birthday.to_date unless birthday.class == Date
   unless birthday.friday? == true
-    your_birthday_is_on_a_friday_in_the_year(birthday + 3.15569e7)
+    your_birthday_is_on_a_friday_in_the_year(birthday.next_year)
   else
     birthday.year
   end
@@ -254,13 +254,11 @@ end
 # and 1 that is 4 letters long. Return it as a hash in the format
 # word_length => count, e.g. {2 => 1, 3 => 5, 4 => 1}
 def count_words_of_each_length_in_a_file(file_path)
-  wordcount = {}
-  file = File.read(file_path)
-  file.split.each do |word|
-    word = word.gsub(/[\.,]/, '')
-    wordcount[word.size] ? wordcount[word.size] += 1 : wordcount[word.size] = 1
+  lengths = File.read(file_path).split.map { |word| word.gsub(/[.,]/, '') }.map(&:size)
+  lengths.each_with_object({}) do |word_length, hash|
+    hash[word_length] ? hash[word_length] += 1 : hash[word_length] = 1
+    hash
   end
-  wordcount
 end
 
 # implement fizzbuzz without modulo, i.e. the % method
@@ -288,17 +286,15 @@ end
 # at the end.
 # (there's no RSpec test for this one)
 def ninety_nine_bottles_of_beer
-  99.downto(1) do |number|
-    number = 'no' if number == 0
-    alt_num = number - 1
-    more = number == 0 ? "more " : nil
-    bottle = number <= 1 ? "bottle" : "bottles"
-    sec_bottle = alt_num <= 1 ? "bottle" : "bottles"
-    puts "#{number} #{more}#{bottle} of beer on the wall, #{number} #{more}#{bottle} of beer."
-    if number != 1
-      puts "Take one down and pass it around, #{alt_num} #{more}#{sec_bottle} of beer on the wall.\n\n"
+  99.downto(0) do |number|
+    number_or_no1, number_or_no2 = (number == 0 ? 'no' : number), (number == 1 ? 'no' : number - 1)
+    bot1, bot2 = (number == 1 ? "bottle" : "bottles"), (number - 1 == 1 ? "bottle" : "bottles")
+    more1, more2 = (number == 0 ? "more " : ''), (number -1 == 0 ? "more " : '')
+    puts "#{number == 0 ? 'No' : number} #{more1}#{bot1} of beer on the wall, #{number_or_no1} #{more1}#{bot1} of beer."
+    if number != 0
+      puts "Take one down and pass it around, #{number_or_no2} #{more2}#{bot2} of beer on the wall.\n\n"
     else
-      puts "Go to the store and buy some more, #{number+98} bottles of beer on the wall."
+      puts "Go to the store and buy some more, #{number + 99} bottles of beer on the wall."
     end
   end
 end
