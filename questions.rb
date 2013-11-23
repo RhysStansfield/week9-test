@@ -302,7 +302,7 @@ def ninety_nine_bottles_of_beer
 end
 
 def sing number
-  return "#{line_1(number)}\n#{line_2 number-1}" if number != 0
+  return "#{line_1(number)}\n#{line_2 number-1}" if not_equal_to(number, 0)
   "#{line_1 number}\n#{last_line}"
 end
 
