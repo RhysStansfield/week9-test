@@ -265,18 +265,30 @@ end
 # go from 1 to 100
 # (there's no RSpec test for this one)
 def fizzbuzz_without_modulo
-  fizzbuzz = (1..100).map do |number|
-    if (number / 15.0).to_s[-1] == '0'
-      number = 'Fizzbuzz' 
-    elsif (number / 3.0).to_s[-1] == '0'
-      number = 'Fizz' 
-    elsif (number / 5.0).to_s[-1] == '0'
-      number = 'Buzz' 
-    else
-      number
-    end
-  end
-  puts fizzbuzz
+  100.times { |number| puts fizzbuzz number }
+end
+
+def fizzbuzz number
+    return 'Fizzbuzz' if divisible_by_fifteen number
+    return 'Fizz' if divisible_by_three number
+    return 'Buzz' if divisible_by_five number
+    number
+end
+
+def divisible_by_fifteen number
+  divisible_by number, 15.0
+end
+
+def divisible_by_three number
+  divisible_by number, 3.0
+end
+
+def divisible_by_five number
+  divisible_by number, 5.0
+end
+
+def divisible_by number, divisor
+  (number / divisor).to_s[-1] == '0'
 end
 
 # print the lyrics of the song 99 bottles of beer on the wall
@@ -286,15 +298,38 @@ end
 # at the end.
 # (there's no RSpec test for this one)
 def ninety_nine_bottles_of_beer
-  99.downto(0) do |number|
-    number_or_no1, number_or_no2 = (number == 0 ? 'no' : number), (number == 1 ? 'no' : number - 1)
-    bot1, bot2 = (number == 1 ? "bottle" : "bottles"), (number - 1 == 1 ? "bottle" : "bottles")
-    more1, more2 = (number == 0 ? "more " : ''), (number -1 == 0 ? "more " : '')
-    puts "#{number == 0 ? 'No' : number} #{more1}#{bot1} of beer on the wall, #{number_or_no1} #{more1}#{bot1} of beer."
-    if number != 0
-      puts "Take one down and pass it around, #{number_or_no2} #{more2}#{bot2} of beer on the wall.\n\n"
-    else
-      puts "Go to the store and buy some more, #{number + 99} bottles of beer on the wall."
-    end
-  end
+  99.downto(0) { |number| puts "#{sing number}\n\n" }
+end
+
+def sing number
+  return "#{line_1 number}\n#{line_2 number-1}" if number != 0
+  "#{line_1 number}\n#{last_line}"
+end
+
+def line_1 number
+  "#{number_or_no number} #{more number}#{bottles number} of beer on the wall, #{number_or_no number} #{more number}#{bottles number} of beer"
+end
+
+def line_2 number
+  "Take one down and pass it around, #{number_or_no number} #{more number}#{bottles number} of beer on the wall"
+end
+
+def last_line
+  "go to the store and buy some more, 99 bottles of beer on the wall"
+end
+
+def number_or_no number
+  equal_to(number, 0) ? number : 'no'
+end
+
+def bottles number
+  equal_to(number, 1) ? 'bottles' : 'bottle'
+end
+
+def more number
+  equal_to(number, 0) ? '' : 'more ' 
+end
+
+def equal_to number, number_to_check
+  number != number_to_check
 end

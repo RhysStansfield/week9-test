@@ -220,4 +220,143 @@ describe 'the Friday test :)' do
     n = count_words_of_each_length_in_a_file('lorem.txt') || []
     expect(Hash[n.sort]).to eq({1=>1, 2=>5, 3=>7, 4=>12, 5=>14, 6=>4, 7=>8, 8=>6, 9=>6, 10=>2, 11=>2, 12=>3}) 
   end
+
+  context 'Fizzbuzz' do
+
+    context 'Fizzbuzz logic' do
+
+      it 'can tell if a number is divisible by 3' do
+        expect(divisible_by_three(6)).to be true
+      end
+
+      it 'can tell if a number is not divisble by 3' do
+        expect(divisible_by_three(4)).to be false
+      end
+
+      it 'can tell if a number is divisible by 5' do
+        expect(divisible_by_five(5)).to be true
+      end
+
+      it 'can tell if a number is not divisible by 5' do
+        expect(divisible_by_five(4)).to be false
+      end
+
+      it 'can tell if a number is divisible by 15' do
+        expect(divisible_by_fifteen(15)).to be true
+      end
+
+      it 'can tell if a number is not divisble by 15' do
+        expect(divisible_by_fifteen(14)).to be false
+      end
+
+    end
+
+    context 'Playing fizzbuzz' do
+
+      it 'will return "Fizz" if given 3' do
+        expect(fizzbuzz(3)).to eq 'Fizz'
+      end
+
+      it 'will return "Buzz" if given 10' do
+        expect(fizzbuzz(10)).to eq 'Buzz'
+      end
+
+      it 'will return "Fizzbuzz" if given 60' do
+        expect(fizzbuzz(15)).to eq 'Fizzbuzz'
+      end
+
+      it 'will return the number if given 7' do
+        expect(fizzbuzz(7)).to eq 7
+      end
+
+    end
+
+  end
+
+  context '99 bottles of beer' do
+
+    context '99 bottles of beer logic' do
+
+      context 'numbers'do
+
+        it 'can return a number' do
+          expect(number_or_no(10)).to eq 10
+        end
+
+        it 'can return a different number' do
+          expect(number_or_no(24)).to eq 24
+        end
+
+        it 'can return "no" if given 0' do
+          expect(number_or_no(0)).to eq 'no'
+        end
+
+      end
+
+      context 'bottles' do
+      
+        it 'can return "bottles"' do
+          expect(bottles(10)).to eq 'bottles'
+        end
+
+        it 'can return "bottle" if given the number 1' do
+          expect(bottles(1)).to eq 'bottle'
+        end
+
+      end
+
+      context 'more or not' do
+
+        it 'can return "more " if given 0' do
+          expect(more(0)).to eq 'more '
+        end
+
+        it 'can return "" if given a number other than 0' do
+          expect(more(5)).to eq ''
+        end
+
+      end
+
+    end
+
+    context 'Singing the song' do
+
+      it 'can return the first line of the song with the appropriate number and bottle/bottles' do
+        expect(line_1(10)).to eq '10 bottles of beer on the wall, 10 bottles of beer'
+      end
+
+      it 'can return the first line of the song with a different appropriate number, bottle/bottles' do
+        expect(line_1(1)).to eq '1 bottle of beer on the wall, 1 bottle of beer'
+      end
+
+      it 'can return the first line of the song with "no", "bottles" and "more " if given 0' do
+        expect(line_1(0)).to eq 'no more bottles of beer on the wall, no more bottles of beer'
+      end
+
+      it 'can return the second line of the song with the appropriate number and bottle/bottles' do
+        number = 5
+        expect(line_2(number - 1)).to eq 'Take one down and pass it around, 4 bottles of beer on the wall'
+      end
+
+      it 'can return the second line with a different number and bottle' do
+        number = 1
+        expect(line_2(number -1)).to eq 'Take one down and pass it around, no more bottles of beer on the wall'
+      end
+
+      it 'can return the last line of the song' do
+        expect(last_line).to eq 'go to the store and buy some more, 99 bottles of beer on the wall'
+      end
+
+      it 'can sing a verse' do
+        expect(sing(10)).to eq "10 bottles of beer on the wall, 10 bottles of beer\nTake one down and pass it around, 9 bottles of beer on the wall"
+      end
+
+      it 'can sing the last verse' do
+        expect(sing(0)).to eq "no more bottles of beer on the wall, no more bottles of beer\ngo to the store and buy some more, 99 bottles of beer on the wall"
+      end
+
+    end
+
+  end
+
 end
