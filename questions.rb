@@ -302,7 +302,7 @@ def ninety_nine_bottles_of_beer
 end
 
 def sing number
-  return "#{line_1(number)}\n#{line_2 number-1}" if not_equal_to(number, 0)
+  return "#{line_1(number)}\n#{line_2 number-1}" if not_equal_to(number)
   "#{line_1 number}\n#{last_line}"
 end
 
@@ -319,7 +319,7 @@ def last_line
 end
 
 def number_or_no number
-  not_equal_to(number, 0) ? number : 'no'
+  not_equal_to(number) ? number : 'no'
 end
 
 def bottles number
@@ -327,9 +327,9 @@ def bottles number
 end
 
 def more number
-  not_equal_to(number, 0) ? '' : 'more ' 
+  not_equal_to(number) ? '' : 'more ' 
 end
 
-def not_equal_to number, number_to_check
+def not_equal_to number, number_to_check = 0
   number != number_to_check
 end
